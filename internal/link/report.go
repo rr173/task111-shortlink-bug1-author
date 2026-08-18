@@ -11,6 +11,7 @@ type OwnerReport struct {
 }
 
 func (s *Service) OwnerReport(ctx context.Context, owner string) (OwnerReport, error) {
+	owner = NormalizeOwner(owner)
 	summary, err := s.store.OwnerSummary(ctx, owner)
 	if err != nil {
 		return OwnerReport{}, err

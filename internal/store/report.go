@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -13,6 +14,7 @@ type OwnerSummary struct {
 }
 
 func (s *Store) OwnerSummary(ctx context.Context, owner string) (OwnerSummary, error) {
+	owner = strings.TrimSpace(owner)
 	var out OwnerSummary
 	if err := s.db.QueryRowContext(ctx, `SELECT COUNT(*) FROM links WHERE owner=?`, owner).Scan(&out.Links); err != nil {
 		return out, fmt.Errorf("count owner links: %w", err)
